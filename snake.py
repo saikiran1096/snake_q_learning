@@ -7,7 +7,7 @@ package:        snake
 version:        0.0.1
 """
 
-from snake.snake_game_obj import SnakeGame
+from snake import SnakeGame
 
 
 """
