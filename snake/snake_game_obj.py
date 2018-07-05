@@ -18,6 +18,7 @@ from snake.food_obj import Food
 SnakeGame ...
 """
 class SnakeGame:
+    SCORE = 0
     COLOR_WHITE = 1
     COLOR_RED = 2
     GAME_SPEED = 75
@@ -27,7 +28,7 @@ class SnakeGame:
     __init__ ...
     """
     def __init__(self):
-        self.score = 0
+        self.score = self.SCORE
 
         # create screen
         self.scr = curses.initscr()
@@ -44,14 +45,21 @@ class SnakeGame:
         # get screen dimensions
         max_y, max_x = self.scr.getmaxyx()
         self.dim_x = max_x - 2
-        self.dim_y = max_y - 4
+        self.dim_y = max_y - 2
 
         # add info
-        self.scr.addstr(1, 1, 'Snake Game')
-        self.scr.addstr(max_y-1, 1, 'Score: %d' % self.score)
+        self.scr.addstr(0, 1, 'Snake Game')
+        quitInstructions = 'Press ESC to quit'
+        scoreMeter = 'Score %d ' % self.score
+        if max_x - 2 < len(quitInstructions + scoreMeter):
+            self.scr.addstr(self.dim_y + 1, 1, scoreMeter)
+        else:
+            self.scr.addstr(self.dim_y + 1, 1, scoreMeter +
+                ' ' * (self.dim_x - len(scoreMeter) - len(quitInstructions)) +
+                quitInstructions)
 
         # create window
-        self.win = curses.newwin(self.dim_y, self.dim_x, 2, 1)
+        self.win = curses.newwin(self.dim_y, self.dim_x, 1, 1)
         self.win.keypad(True)
         self.win.box()
         self.win.timeout(self.GAME_SPEED)
@@ -122,7 +130,7 @@ class SnakeGame:
     """
     def refresh(self):
         # update score
-        self.scr.addstr(max_y-1, 1, 'Score: %d' % self.score)
+        self.scr.addstr(self.dim_y + 1, 1, 'Score: %d' % self.score)
 
         # refresh windows
         self.scr.refresh()
