@@ -9,8 +9,6 @@ version:        0.0.1
 
 import curses
 
-KEY_ESC = 27
-
 
 """
 is_allowed_key ...
@@ -20,8 +18,7 @@ def is_allowed_key(key):
         curses.KEY_LEFT,
         curses.KEY_RIGHT,
         curses.KEY_UP,
-        curses.KEY_DOWN,
-        KEY_ESC
+        curses.KEY_DOWN
     ]
 
     if key in allowed_keys:

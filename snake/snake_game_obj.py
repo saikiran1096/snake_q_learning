@@ -9,7 +9,7 @@ version:        0.0.1
 
 import curses, sys
 
-from snake.functions import is_allowed_key, is_opposite_key, KEY_ESC
+from snake.functions import is_allowed_key, is_opposite_key
 from snake.snake_obj import Snake
 from snake.food_obj import Food
 
@@ -49,7 +49,7 @@ class SnakeGame:
 
         # add info
         self.scr.addstr(0, 1, 'Snake Game')
-        quitInstructions = 'Press ESC to quit'
+        quitInstructions = 'Press ^C to quit'
         scoreMeter = 'Score %d ' % self.score
         if max_x - 2 < len(quitInstructions + scoreMeter):
             self.scr.addstr(self.dim_y + 1, 1, scoreMeter)
@@ -96,9 +96,6 @@ class SnakeGame:
 
             key = self.win.getch()
             if key != -1:
-                if key == KEY_ESC:
-                    self.quit_game()
-
                 if (is_allowed_key(key) and
                         not is_opposite_key(curr_key, key)):
                     curr_key = key
