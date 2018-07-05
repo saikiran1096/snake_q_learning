@@ -18,7 +18,6 @@ from snake.food_obj import Food
 SnakeGame ...
 """
 class SnakeGame:
-    SCORE = 0
     COLOR_WHITE = 1
     COLOR_RED = 2
     GAME_SPEED = 75
@@ -28,9 +27,10 @@ class SnakeGame:
     __init__ ...
     """
     def __init__(self):
+        self.score = 0
+
         # create screen
         self.scr = curses.initscr()
-        self.scr.addstr(1, 1, 'Score: %d' % self.SCORE)
 
         # cursor and color config
         curses.curs_set(False)
@@ -44,7 +44,11 @@ class SnakeGame:
         # get screen dimensions
         max_y, max_x = self.scr.getmaxyx()
         self.dim_x = max_x - 2
-        self.dim_y = max_y - 3
+        self.dim_y = max_y - 4
+
+        # add info
+        self.scr.addstr(1, 1, 'Snake Game')
+        self.scr.addstr(max_y-1, 1, 'Score: %d' % self.score)
 
         # create window
         self.win = curses.newwin(self.dim_y, self.dim_x, 2, 1)
@@ -76,7 +80,7 @@ class SnakeGame:
 
             if food.loc.collided(snake.locs[0]):
                 snake.eat()
-                self.SCORE += 1
+                self.score += 1
                 food = Food(self.dim_x, self.dim_y, snake)
 
             self.render_snake(snake, old_snake)
@@ -118,7 +122,7 @@ class SnakeGame:
     """
     def refresh(self):
         # update score
-        self.scr.addstr(1, 1, 'Score: %d' % self.SCORE)
+        self.scr.addstr(max_y-1, 1, 'Score: %d' % self.score)
 
         # refresh windows
         self.scr.refresh()
