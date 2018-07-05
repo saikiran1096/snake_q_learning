@@ -7,11 +7,13 @@ package:        snake
 version:        0.0.1
 """
 
-import curses, sys
+import curses, sys, time
 
 from snake.functions import is_allowed_key, is_opposite_key
 from snake.snake_obj import Snake
 from snake.food_obj import Food
+
+VERSION = "0.0.1"
 
 
 """
@@ -21,7 +23,7 @@ class SnakeGame:
     SCORE = 0
     COLOR_WHITE = 1
     COLOR_RED = 2
-    GAME_SPEED = 75
+    GAME_SPEED = 0.075
     SNAKE_START_LEN = 1
 
     """
@@ -48,7 +50,7 @@ class SnakeGame:
         self.dim_y = max_y - 2
 
         # add info
-        self.scr.addstr(0, 1, 'Snake Game')
+        self.scr.addstr(0, 1, 'Snake ' + VERSION)
         quitInstructions = 'Press ^C to quit'
         scoreMeter = 'Score %d ' % self.score
         if max_x - 2 < len(quitInstructions + scoreMeter):
@@ -62,7 +64,7 @@ class SnakeGame:
         self.win = curses.newwin(self.dim_y, self.dim_x, 1, 1)
         self.win.keypad(True)
         self.win.box()
-        self.win.timeout(self.GAME_SPEED)
+        self.win.timeout(int(self.GAME_SPEED * 1000))
 
         self.refresh()
 
@@ -94,7 +96,10 @@ class SnakeGame:
             self.render_snake(snake, old_snake)
             self.render_food(food)
 
+            t = time.time()
             key = self.win.getch()
+            if time.time() - t < self.GAME_SPEED:
+                time.sleep(self.GAME_SPEED - (time.time() - t))
             if key != -1:
                 if (is_allowed_key(key) and
                         not is_opposite_key(curr_key, key)):
