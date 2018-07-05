@@ -1,5 +1,5 @@
 *~
 *.swo
 *.swp
-snake/__pycache__/*
-__pycache__/*
+snake/__pycache__
+__pycache__
