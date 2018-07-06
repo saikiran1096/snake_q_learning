@@ -1,7 +1,7 @@
 # snake
 A simple snake game written in python.
 
-![snake game image](https://raw.githubusercontent.com/sradley/snake/docs/img/snake.png)
+![docs/img/snake.png](https://raw.githubusercontent.com/sradley/snake/master/docs/img/snake.png)
 
 ## Usage
 ```sh
