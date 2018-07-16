@@ -18,8 +18,6 @@ def main():
 
     try:
         g.run()
-    except KeyboardInterrupt:
-        g.quit_game()
     finally:
         g.quit_game()
 
