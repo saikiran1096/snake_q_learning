@@ -50,9 +50,9 @@ class SnakeGame:
         self.dim_y = max_y - 2
 
         # add info
-        self.scr.addstr(0, 1, 'Snake ' + VERSION)
-        quitInstructions = 'Press ^C to quit'
-        scoreMeter = 'Score %d ' % self.score
+        self.scr.addstr(0, 1, 'snake-py ' + VERSION)
+        quitInstructions = 'press ctrl-C to quit'
+        scoreMeter = 'score %d ' % self.score
         if max_x - 2 < len(quitInstructions + scoreMeter):
             self.scr.addstr(self.dim_y + 1, 1, scoreMeter)
         else:
@@ -132,7 +132,7 @@ class SnakeGame:
     """
     def refresh(self):
         # update score
-        self.scr.addstr(self.dim_y + 1, 1, 'Score: %d' % self.score)
+        self.scr.addstr(self.dim_y + 1, 1, 'score: %d' % self.score)
 
         # refresh windows
         self.scr.refresh()
