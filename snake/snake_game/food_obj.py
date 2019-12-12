@@ -9,8 +9,8 @@ version:        0.0.1
 
 from random import randint
 
-from snake.location_obj import Location
-from snake.functions import find_valid_locs
+from snake.snake_game.location import Location
+from snake.snake_game.functions import find_valid_locs
 
 
 """

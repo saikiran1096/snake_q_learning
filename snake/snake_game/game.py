@@ -9,9 +9,9 @@ version:        0.0.1
 
 import curses, sys, time
 
-from snake.functions import is_allowed_key, is_opposite_key
-from snake.snake_obj import Snake
-from snake.food_obj import Food
+from snake.snake_game.functions import is_allowed_key, is_opposite_key
+from snake.snake_game.snake import Snake
+from snake.snake_game.food_obj import Food
 
 VERSION = "0.0.1"
 

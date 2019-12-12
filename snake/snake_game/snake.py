@@ -1,5 +1,5 @@
 """
-snake/snake_obj.py
+snake/snake.py
 
 author:         Stephen Radley
 date:           2018/07/05
@@ -8,7 +8,7 @@ version:        0.0.1
 """
 
 import curses
-from snake.location_obj import Location
+from snake.snake_game.location import Location
 
 
 """
