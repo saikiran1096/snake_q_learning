@@ -1,24 +1,9 @@
-"""
-snake/snake.py
-
-author:         Stephen Radley
-date:           2018/07/05
-package:        snake
-version:        0.0.1
-"""
-
 import curses
+
 from snake.snake_game.location import Location
 
 
-"""
-Snake ...
-"""
 class Snake:
-
-    """
-    __init__ ...
-    """
     def __init__(self, dim_x, dim_y, start_len=1):
         # set max dimensions
         self.max_x, self.max_y = dim_x - 1, dim_y - 1
@@ -30,9 +15,6 @@ class Snake:
         # set length
         self.length = start_len
 
-    """
-    move ...
-    """
     def move(self, move_x, move_y):
         # check out of bounds x
         if (self.locs[0].x + move_x < 1 or
@@ -60,9 +42,6 @@ class Snake:
 
         return True
 
-    """
-    move_direction ...
-    """
     def move_in_direction(self, key):
         if key == curses.KEY_RIGHT:
             return self.move(1, 0)
@@ -78,15 +57,6 @@ class Snake:
 
         return False
 
-    """
-    eat ...
-    """
-    def eat(self):
-        self.length += 1
-
-    """
-    copy ...
-    """
     def copy(self):
         copy_snake = Snake(self.max_x, self.max_y)
         copy_snake.locs = self.locs

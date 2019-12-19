@@ -1,29 +1,10 @@
-"""
-snake/location_obj.py
-
-author:         Stephen Radley
-date:           2018/07/05
-package:        snake
-version:        0.0.1
-"""
+from dataclasses import dataclass
 
 
-"""
-Location ...
-"""
+@dataclass
 class Location:
+    x: int
+    y: int
 
-    """
-    __init__ ...
-    """
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    """
-    collided ...
-    """
-    def collided(self, loc):
-        if loc.x == self.x and loc.y == self.y:
-            return True
-        return False
+    def __add__(self, other):
+        return Location(self.x + other.x, self.y + other.y)

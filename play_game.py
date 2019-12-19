@@ -6,8 +6,9 @@ date:           2018/07/05
 package:        snake
 version:        0.0.1
 x"""
+import traceback
 
-from snake.snake_game.game import SnakeGame
+from snake.snake_game.game import SnakeGame, quit_game
 
 """
 main ...
@@ -15,12 +16,16 @@ main ...
 
 
 def main():
-    g = SnakeGame()
+    g = SnakeGame((40, 20))
 
     try:
         g.run()
-    finally:
-        g.quit_game()
+        quit_game()
+    except:
+        quit_game()
+        traceback.print_exc()
+
+    print(f'Game ended with score {g.score}')
 
 
 if __name__ == '__main__':
