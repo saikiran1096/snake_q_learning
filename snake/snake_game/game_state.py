@@ -26,6 +26,7 @@ class GameState:
 
         start_loc = Location(random.randrange(dim_x), random.randrange(dim_y))
         self.snake = Snake(start_loc)
+        self.board[start_loc.x, start_loc.y] = HEAD_SYMBOL
 
         self.game_over = False
         self.food_loc = self.new_food()
