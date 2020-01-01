@@ -1,22 +1,10 @@
-"""
-snake.py
-
-author:         Stephen Radley
-date:           2018/07/05
-package:        snake
-version:        0.0.1
-x"""
 import traceback
 
-from snake.snake_game.game import SnakeGame, quit_game
-
-"""
-main ...
-"""
+from snake.snake_game.console_game import SnakeGame, quit_game
 
 
 def main():
-    g = SnakeGame((40, 20))
+    g = SnakeGame((32, 16))
 
     try:
         g.run()

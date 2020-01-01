@@ -1,7 +1,5 @@
 import curses
-import sys
 import time
-import logging
 
 from snake.snake_game.game_state import GameState
 
@@ -33,7 +31,7 @@ class SnakeGame:
 
     def __init__(self, dims):
         self.score = 0
-        self.state = GameState(dims)
+        self.dims = dims
         # create screen
         self.scr = curses.initscr()
 
@@ -46,24 +44,15 @@ class SnakeGame:
                          curses.COLOR_WHITE)
         curses.init_pair(self.COLOR_RED, curses.COLOR_RED, curses.COLOR_RED)
 
-        max_x, max_y = dims
-
-        self.dim_x = max_x - 2
-        self.dim_y = max_y - 2
+        self.state = GameState(dims)
 
         # add info
-        self.scr.addstr(0, 1, 'SNAKE')
-        quit_instructions = 'press ctrl-C to quit'
+        self.scr.addstr(0, 0, 'SNAKE')
         score_meter = 'score %d ' % self.score
-        if max_x - 2 < len(quit_instructions + score_meter):
-            self.scr.addstr(self.dim_y + 1, 1, score_meter)
-        else:
-            self.scr.addstr(self.dim_y + 1, 1, score_meter +
-                            ' ' * (self.dim_x - len(score_meter) - len(quit_instructions)) +
-                            quit_instructions)
+        self.scr.addstr(dims[1], 1, score_meter)
 
         # create window
-        self.win = curses.newwin(self.dim_y, self.dim_x, 1, 1)
+        self.win = curses.newwin(dims[1] + 2, dims[0] + 2, 1, 1)
         self.win.keypad(True)
         self.win.box()
         self.win.timeout(int(self.GAME_SPEED * 1000))
@@ -104,21 +93,21 @@ class SnakeGame:
             self.refresh()
 
     def erase_tail(self):
-        self.win.addch(self.state.snake.tail().y, self.state.snake.tail().x, ' ')
+        self.win.addch(self.state.snake.tail().y + 1, self.state.snake.tail().x + 1, ' ')
 
     def render_snake(self):
-        self.win.addch(self.state.snake.head().y, self.state.snake.head().x, ' ',
+        self.win.addch(self.state.snake.head().y + 1, self.state.snake.head().x + 1, ' ',
                        curses.color_pair(self.COLOR_WHITE))
-        self.win.addch(self.state.snake.tail().y, self.state.snake.tail().x, ' ',
+        self.win.addch(self.state.snake.tail().y + 1, self.state.snake.tail().x + 1, ' ',
                        curses.color_pair(self.COLOR_WHITE))
 
     def render_food(self, food):
-        self.win.addch(food.y, food.x, ' ',
+        self.win.addch(food.y + 1, food.x + 1, ' ',
                        curses.color_pair(self.COLOR_RED))
 
     def refresh(self):
         # update score
-        self.scr.addstr(self.dim_y + 1, 1, 'score: %d' % self.score)
+        self.scr.addstr(self.dims[1] + 3, 0, 'score: %d' % self.score)
 
         # refresh windows
         self.scr.refresh()

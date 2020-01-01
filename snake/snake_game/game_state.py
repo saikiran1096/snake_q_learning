@@ -1,9 +1,16 @@
 import random
+from collections import deque
 
 import numpy as np
 
 from snake.snake_game.location import Location
-from collections import deque
+
+
+EMPTY_SYMBOL = 0
+FOOD_SYMBOL = 1
+HEAD_SYMBOL = 2
+BODY_SYMBOL = 3
+TAIL_SYMBOL = 4
 
 
 class GameState:
@@ -14,12 +21,10 @@ class GameState:
 
     def __init__(self, shape):
         dim_x, dim_y = shape
-        dim_x -= 2
-        dim_y -= 2
-        self.shape = (dim_x, dim_y)
+        self.shape = shape
         self.board = np.zeros(shape, dtype=np.float32)
 
-        start_loc = Location(dim_x // 2, dim_y // 2)
+        start_loc = Location(random.randrange(dim_x), random.randrange(dim_y))
         self.snake = Snake(start_loc)
 
         self.game_over = False
