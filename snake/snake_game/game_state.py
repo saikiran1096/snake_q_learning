@@ -5,7 +5,6 @@ import numpy as np
 
 from snake.snake_game.location import Location
 
-
 EMPTY_SYMBOL = 0
 FOOD_SYMBOL = 1
 HEAD_SYMBOL = 2
@@ -30,6 +29,7 @@ class GameState:
 
         self.game_over = False
         self.food_loc = self.new_food()
+        self.board[self.food_loc.x, self.food_loc.y] = FOOD_SYMBOL
         self.score = 0
 
     def new_food(self):
@@ -63,13 +63,29 @@ class GameState:
 
         if new_loc == self.food_loc:
             self.score += 100
+
+            # create new food
+            food = self.new_food()
+            self.food_loc = food
+            self.board[food.x, food.y] = FOOD_SYMBOL
+
+            self.board[new_loc.x, new_loc.y] = HEAD_SYMBOL
+            old_head = self.snake.head()
+            self.board[old_head.x, old_head.y] = BODY_SYMBOL
+
             self.snake.eat(new_loc)
-            self.food_loc = self.new_food()
+
             return 100
 
         else:
             self.score += 1
+            tail = self.snake.tail()
+            old_head = self.snake.head()
+            self.board[new_loc.x, new_loc.y] = HEAD_SYMBOL
+            self.board[old_head.x, old_head.y] = BODY_SYMBOL
+            self.board[tail.x, tail.y] = EMPTY_SYMBOL
             self.snake.advance(new_loc)
+
             return 1
 
     def in_bounds(self, loc):

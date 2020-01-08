@@ -2,6 +2,7 @@ import curses
 import time
 
 from snake.snake_game.game_state import GameState
+from snake.snake_game.recorder import Recorder
 
 
 def key_to_move(key):
@@ -45,6 +46,7 @@ class SnakeGame:
         curses.init_pair(self.COLOR_RED, curses.COLOR_RED, curses.COLOR_RED)
 
         self.state = GameState(dims)
+        self.recorder = Recorder(self.state)
 
         # add info
         self.scr.addstr(0, 0, 'SNAKE')
@@ -72,9 +74,11 @@ class SnakeGame:
             move = key_to_move(curr_key)
             self.erase_tail()
             self.score += self.state.make_move(move)
+            self.recorder.add_move(move)
             self.erase_tail()
 
             if self.state.game_over:
+                self.recorder.write()
                 quit_game()
                 return
 
