@@ -4,7 +4,7 @@ from snake.snake_game.console_game import SnakeGame, quit_game
 
 
 def main():
-    g = SnakeGame((32, 16))
+    g = SnakeGame((32, 32))
 
     try:
         g.run()
