@@ -1,12 +1,17 @@
 from tensorflow import keras
 
+import tensorflow as tf
+
 input_dims = (32, 32, 3)
 
 NUM_CLASSES = 4
+DECODER_UNITS = 32
 
 
-def create_model():
+def create_model(name='q_learning_model'):
     model_input = keras.Input(shape=input_dims, name='input_frames')
+    selection_input = keras.Input(shape=(NUM_CLASSES,))
+
     x = model_input
 
     x = keras.layers.Conv2D(32, 3, padding='same', strides=1, activation='relu')(x)
@@ -16,13 +21,23 @@ def create_model():
 
     encoding = x
 
-    y = keras.layers.GlobalAveragePooling2D()(encoding)
-    decoder_out = keras.layers.Dense(NUM_CLASSES, activation=None)(y)
+    encoder_out = keras.layers.GlobalAveragePooling2D()(encoding)
 
-    model = keras.Model(inputs=model_input, outputs=decoder_out, name='q_learning_model')
+    y = encoder_out
+    y = keras.layers.Dense(DECODER_UNITS, activation='relu')(y)
+    y = keras.layers.Dense(NUM_CLASSES, activation=None, name ='output')(y)
 
-    model.compile(optimizer='adam', loss='mse', metrics=['accuracy'])
+    output = y
+    selected_output = tf.math.reduce_sum(selection_input * y, axis=1)
 
-    print("Creating new model:")
-    model.summary()
+    model = keras.Model(inputs=[model_input, selection_input], outputs=[output, selected_output], name=name)
+
+    model.compile(optimizer='adam', loss=[None, 'mse'], metrics=['mae'])
+
+    # print("Creating new model:")
+    # model.summary()
     return model
+
+
+def compute_target(target_model):
+    pass

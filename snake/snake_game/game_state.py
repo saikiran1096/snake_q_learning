@@ -3,6 +3,7 @@ from collections import deque
 
 import numpy as np
 
+from snake.snake_game.frame_seq import FrameSequence
 from snake.snake_game.location import Location
 
 EMPTY_SYMBOL = 0
@@ -18,6 +19,9 @@ class GameState:
     UP = (0, -1)
     DOWN = (0, 1)
 
+    MOVES = [LEFT, RIGHT, UP, DOWN]
+    MOVES_DICT = {LEFT: 0, RIGHT: 1, UP: 2, DOWN: 3}
+
     def __init__(self, shape):
         dim_x, dim_y = shape
         self.shape = shape
@@ -31,6 +35,7 @@ class GameState:
         self.food_loc = self.new_food()
         self.board[self.food_loc.x, self.food_loc.y] = FOOD_SYMBOL
         self.score = 0
+        self.frame_sequence = FrameSequence(3, self.board)
 
     def new_food(self):
         valid_locs = self.find_valid_locs()
@@ -54,14 +59,14 @@ class GameState:
         if not self.in_bounds(new_loc):
             self.score -= 1000
             self.game_over = True
-            return -1000
+            reward = -1000
 
-        if self.snake.collides(new_loc):
+        elif self.snake.collides(new_loc):
             self.score -= 1000
             self.game_over = True
-            return -1000
+            reward = -1000
 
-        if new_loc == self.food_loc:
+        elif new_loc == self.food_loc:
             self.score += 100
 
             # create new food
@@ -75,7 +80,7 @@ class GameState:
 
             self.snake.eat(new_loc)
 
-            return 100
+            reward = 100
 
         else:
             self.score += 1
@@ -86,7 +91,10 @@ class GameState:
             self.board[tail.x, tail.y] = EMPTY_SYMBOL
             self.snake.advance(new_loc)
 
-            return 1
+            reward = 1
+
+        self.frame_sequence.add_frame(self.board)
+        return reward
 
     def in_bounds(self, loc):
         return (0 <= loc.x < self.shape[0]) and (0 <= loc.y < self.shape[1])

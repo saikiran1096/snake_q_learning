@@ -4,9 +4,11 @@ import time
 
 import numpy as np
 
+from snake.snake_game.game_state import GameState
+
 
 class Recorder:
-    def __init__(self, init_state, save_dir='data'):
+    def __init__(self, init_state: GameState, save_dir='data'):
         self.save_dir = save_dir
         self.history = GameHistory(copy.deepcopy(init_state))
         self.moves = []
@@ -17,10 +19,13 @@ class Recorder:
     def write(self):
         timestamp = str(int(time.time()))
         save_file = os.path.join(self.save_dir, timestamp)
-        np.save(save_file, self.history)
+        np.save(save_file, np.array([self.history]))
 
 
 class GameHistory:
-    def __init__(self, init_state):
+    def __init__(self, init_state: GameState):
         self.init_state = init_state
         self.moves = []
+
+    def __str__(self):
+        return str(self.moves)
