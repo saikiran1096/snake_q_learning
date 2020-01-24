@@ -1,6 +1,5 @@
-from tensorflow import keras
-
 import tensorflow as tf
+from tensorflow import keras
 
 input_dims = (32, 32, 3)
 
@@ -25,7 +24,7 @@ def create_model(name='q_learning_model'):
 
     y = encoder_out
     y = keras.layers.Dense(DECODER_UNITS, activation='relu')(y)
-    y = keras.layers.Dense(NUM_CLASSES, activation=None, name ='output')(y)
+    y = keras.layers.Dense(NUM_CLASSES, activation=None, name='output')(y)
 
     output = y
     selected_output = tf.math.reduce_sum(selection_input * y, axis=1)
