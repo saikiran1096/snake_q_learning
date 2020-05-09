@@ -17,7 +17,7 @@ class Recorder:
         self.history.moves.append(move)
 
     def write(self):
-        timestamp = str(int(time.time()))
+        timestamp = str(int(time.time() * 1000))
         save_file = os.path.join(self.save_dir, timestamp)
         np.save(save_file, np.array([self.history]))
 
